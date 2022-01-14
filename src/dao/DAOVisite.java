@@ -22,7 +22,7 @@ public class DAOVisite implements IDAO<Visite,Integer> {
 		DAOPatient daoP = new DAOPatient();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from visite where numero=?");
 			ps.setInt(1,numero);
@@ -58,7 +58,7 @@ public class DAOVisite implements IDAO<Visite,Integer> {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from visite");
 			ResultSet rs = ps.executeQuery();
@@ -89,7 +89,7 @@ public class DAOVisite implements IDAO<Visite,Integer> {
 	public void insert(Visite v) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
 			
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO visite (id_patient,id_medecin,prix,salle,date_visite) VALUES (?,?,?,?,?)");
 
@@ -116,7 +116,7 @@ public class DAOVisite implements IDAO<Visite,Integer> {
 		try 
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
 
 			PreparedStatement ps = conn.prepareStatement("UPDATE visite id_patient=?, id_medecin=?, prix=?, salle=?, date_visite=? where numero=?");
 
@@ -148,7 +148,7 @@ public class DAOVisite implements IDAO<Visite,Integer> {
 	public void delete(Integer numero) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
 			
 			PreparedStatement ps = conn.prepareStatement("DELETE FROM visite WHERE numero=?");
 			ps.setInt(1,numero);
