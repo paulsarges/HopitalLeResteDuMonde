@@ -4,15 +4,13 @@ public abstract class Compte {
 	
 	protected Integer id;
 	protected String login;
-	protected String password; 
-	protected String typeCompte;
+	protected String password;
 	
 	
-	public Compte(Integer id,String login, String password, String typeCompte) {
+	public Compte(Integer id,String login, String password) {
 		this.id=id;
 		this.login = login;
 		this.password = password;
-		this.typeCompte = typeCompte;
 	}
 	
 	
@@ -34,20 +32,12 @@ public abstract class Compte {
 		return password;
 	}
 
-	public String getTypeCompte() {
-		return typeCompte;
-	}
-
 	public void setLogin(String login) {
 		this.login = login;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public void setTypeCompte(String typeCompte) {
-		this.typeCompte = typeCompte;
 	}
 
 }

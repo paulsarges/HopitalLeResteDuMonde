@@ -8,13 +8,41 @@ import java.sql.SQLException;
 import java.util.List;
 
 import model.Compte;
+import model.Medecin;
+import model.Secretaire;
 
 public class DAOCompte implements IDAO<Compte,Integer> {
 
 	@Override
 	public Compte findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		Compte c=null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
+
+			PreparedStatement ps = conn.prepareStatement("SELECT * from compte where id=?");
+			ps.setInt(1,id);
+
+			ResultSet rs = ps.executeQuery();
+
+			while(rs.next()) 
+			{
+
+				if(rs.getString("type_compte").equals("Medecin")) {
+					c = new Medecin(rs.getInt("id"), rs.getString("login"), rs.getString("password"));
+				} else if(rs.getString("type_compte").equals("Secretaire") ) {
+					c = new Secretaire(rs.getInt("id"), rs.getString("login"), rs.getString("password"));
+				}
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+
+
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		return c;
 	}
 
 	@Override
@@ -46,7 +74,7 @@ public class DAOCompte implements IDAO<Compte,Integer> {
 		Compte connect = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hopital?characterEncoding=UTF-8","root","");
+			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from compte where login=? and password=?");
 			ps.setString(1,login);
@@ -57,23 +85,10 @@ public class DAOCompte implements IDAO<Compte,Integer> {
 			while(rs.next()) 
 			{
 				if(rs.getString("type_compte").equals("Medecin")) {
-					// connect = new Medecin();
+					connect = new Medecin(rs.getInt("id"), rs.getString("login"), rs.getString("password"));
+				} else if(rs.getString("type_compte").equals("Secretaire") ) {
+					connect = new Secretaire(rs.getInt("id"), rs.getString("login"), rs.getString("password"));
 				}
-
-				/*if(rs.getString("type_compte").equals("client")) 
-				{
-					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
-					connect=new Client(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), rs.getString("tel"), a);
-				}
-				else if(rs.getString("type_compte").equals("admin")) 
-				{
-					connect = new Admin(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"),rs.getString("mail"));
-				}
-				else if(rs.getString("type_compte").equals("vendeur")) 
-				{
-					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
-					connect=new Vendeur(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), Refuge.valueOf(rs.getString("refuge")), a);
-				}*/
 			}
 
 			rs.close();
