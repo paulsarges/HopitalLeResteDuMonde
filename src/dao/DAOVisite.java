@@ -9,6 +9,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Compte;
+import model.Medecin;
+import model.Patient;
 import model.Visite;
 
 
@@ -33,8 +36,8 @@ public class DAOVisite implements IDAO<Visite,Integer> {
 
 			while(rs.next()) 
 			{
-				Compte c = daoC.findById(rs.getInt("id"));
-				Patient p = (Patient) daoP.findById(rs.getInt("id"));
+				Medecin c = (Medecin)daoC.findById(rs.getInt("id_medecin"));
+				Patient p = daoP.findById(rs.getInt("id_patient"));
 				v = new Visite(numero,p,c,rs.getDouble("prix"),rs.getInt("salle"), LocalDate.parse(rs.getString("date_visite")));
 			}
 
@@ -67,8 +70,8 @@ public class DAOVisite implements IDAO<Visite,Integer> {
 
 			while(rs.next()) 
 			{
-				Compte c = daoC.findById(rs.getInt("id"));
-				Patient p = (Patient) daoP.findById(rs.getInt("id"));
+				Medecin c = (Medecin)daoC.findById(rs.getInt("id_medecin"));
+				Patient p = daoP.findById(rs.getInt("id_patient"));
 				v = new Visite(rs.getInt("numero"),p,c,rs.getDouble("prix"),rs.getInt("salle"), LocalDate.parse(rs.getString("date_visite")));
 
 				visites.add(v);

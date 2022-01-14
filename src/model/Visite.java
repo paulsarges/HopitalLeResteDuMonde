@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Visite {
 
-	private static Integer numero;
+	private Integer numero;
 	private Patient patient;
 	private Medecin medecin;
 	private double prix;
@@ -12,8 +12,8 @@ public class Visite {
 	private LocalDate dateVisite;
 	
 	
-	public Visite(Patient patient, Medecin medecin, double prix, int salle, LocalDate dateVisite) {
-		numero++;
+	public Visite(Integer numero, Patient patient, Medecin medecin, double prix, int salle, LocalDate dateVisite) {
+		this.numero = numero;
 		this.patient = patient;
 		this.medecin = medecin;
 		this.prix = prix;
@@ -22,13 +22,13 @@ public class Visite {
 	}
 
 
-	public static Integer getNumero() {
+	public Integer getNumero() {
 		return numero;
 	}
 
 
-	public static void setNumero(Integer numero) {
-		Visite.numero = numero;
+	public void setNumero(Integer numero) {
+		this.numero = numero;
 	}
 
 
