@@ -51,7 +51,7 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 		List<Patient> patients = new ArrayList<>();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from patients");
 			ResultSet rs = ps.executeQuery();
@@ -84,14 +84,13 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 		try {
 			
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
 		
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO patient (id,nom,prenom) VALUES (?,?,?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO patient (nom,prenom) VALUES (?,?)");
 
-			System.out.println("Insertion des caractéristiques de la fiche");
-			ps.setString(1, p.getid());
-			ps.setString(2, p.getNom());
-			ps.setString(3, p.getPrenom());
+			System.out.println("Insertion des caractÃ©ristiques du patient");
+			ps.setString(1, p.getNom());
+			ps.setString(2, p.getPrenom());
 
 
 			ps.executeUpdate();
@@ -100,22 +99,22 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 		}
 		catch(Exception e) {e.printStackTrace();}
 
-		System.out.println("Fiche"+p+" insérée avec succès");	
+		System.out.println("Patient"+p+" insÃ©rÃ©e avec succÃ©s");	
 		
 		
 	}
 
 	@Override
-	public void update(Patient o) {
+	public void update(Patient p) {
 		
 		try 
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
 
 			PreparedStatement ps = conn.prepareStatement("UPDATE patient set nom=?, prenom=?  where id=?");
 
-			System.out.println("Update de la fiche");
+			System.out.println("Update du patient");
 			ps.setString(1, p.getNom());
 			ps.setString(1, p.getPrenom());
 			ps.setInt(3, p.getId());
@@ -130,7 +129,7 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 			e.printStackTrace();
 		}
 
-		System.out.println("Fiche"+p+" update");
+		System.out.println("Patient"+p+" update");
 
 
 		
@@ -141,7 +140,7 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
 			
 			PreparedStatement ps = conn.prepareStatement("DELETE FROM patient WHERE id=?");
 			ps.setInt(1,id);
@@ -162,4 +161,4 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 	
 
 }
-}
+
