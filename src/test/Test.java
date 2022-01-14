@@ -1,5 +1,10 @@
 package test;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -22,34 +27,30 @@ public class Test {
 	static DAOVisite daoV = new DAOVisite();
 	static LinkedList<Patient> listedAttente = new LinkedList();
 	static List<Visite> listVisite = new ArrayList();
-	
-	
-	public static String saisieString(String msg) 
-	{
+
+	public static String saisieString(String msg) {
 		Scanner sc = new Scanner(System.in);
 		System.out.println(msg);
 		return sc.nextLine();
 	}
 
-	public static double saisieDouble(String msg) 
-	{
+	public static double saisieDouble(String msg) {
 		Scanner sc = new Scanner(System.in);
 		System.out.println(msg);
 		return sc.nextDouble();
 	}
 
-	public static int saisieInt(String msg) 
-	{
+	public static int saisieInt(String msg) {
 		Scanner sc = new Scanner(System.in);
 		System.out.println(msg);
 		return sc.nextInt();
 	}
+
 	public static void main(String[] args) {
 		menuPrincipal();
 
 	}
-	
-	
+
 	public static void menuPrincipal() {
 
 		System.out.println("Menu principal");
@@ -58,32 +59,35 @@ public class Test {
 
 		int choix = saisieInt("Choisir un menu");
 
-		switch(choix) 
-		{
-		case 1 : connexion();break;
-		case 2 : System.exit(0);break;
+		switch (choix) {
+		case 1:
+			connexion();
+			break;
+		case 2:
+			System.exit(0);
+			break;
 		}
 		menuPrincipal();
 	}
-	
+
 	public static void connexion() {
 
 		System.out.println("Connexion");
 		String login = saisieString("Saisir votre login");
 		String password = saisieString("Saisir votre password");
-		connected= daoC.seConnecter(login, password);
+		connected = daoC.seConnecter(login, password);
 
-		if(connected instanceof Medecin) {menuMedecin();}
-		else if(connected instanceof Secretaire) {menuSecretaire(false);}
-		else if(connected ==null) 
-		{
+		if (connected instanceof Medecin) {
+			menuMedecin();
+		} else if (connected instanceof Secretaire) {
+			menuSecretaire(false);
+		} else if (connected == null) {
 			System.out.println("Identifiants invalides !");
 		}
 		menuPrincipal();
 
-
 	}
-	
+
 	public static void menuSecretaire(boolean pause) {
 		if (!pause) {
 
@@ -92,37 +96,51 @@ public class Test {
 			System.out.println("2 - Consulter la liste d'attente");
 			System.out.println("3 - Partir en Pause");
 			System.out.println("4 - Se deconnecter");
-	
+
 			int choix = saisieInt("Choisir un menu");
-	
-			switch(choix) 
-			{
-			case 1 : addAttente();break;
-			case 2 : showAttente();break;
-			case 3 : menuMedecin();break;
-			case 4 : connected=null;menuPrincipal();break;
+
+			switch (choix) {
+			case 1:
+				addAttente();
+				break;
+			case 2:
+				showAttente();
+				break;
+			case 3:
+				saveAttente();
+				menuSecretaire(true);
+				;
+				break;
+			case 4:
+				connected = null;
+				menuPrincipal();
+				break;
 			}
 		}
-		
+
 		else {
 
 			System.out.println("Menu Vendeur");
 			System.out.println("1 - Revenir pause");
 			System.out.println("2 - Se déconnecter");
-	
+
 			int choix = saisieInt("Choisir un menu");
-	
-			switch(choix) 
-			{
-			case 1 : menuSecretaire(false);break;
-			case 2 : connected=null;menuPrincipal();break;
+
+			switch (choix) {
+			case 1:
+				menuSecretaire(false);
+				break;
+			case 2:
+				connected = null;
+				menuPrincipal();
+				break;
 			}
 		}
 
 		menuSecretaire(false);
 
 	}
-	
+
 	public static void menuMedecin() {
 
 		System.out.println("Menu Medecin");
@@ -130,34 +148,41 @@ public class Test {
 		System.out.println("2 - Consulter la liste d'attente");
 		System.out.println("3 - Sauvegarder les visites");
 		System.out.println("4 - Se deconnecter");
-	
+
 		int choix = saisieInt("Choisir un menu");
-	
-		switch(choix) 
-		{
-			case 1 : updateAttente();break;
-			case 2 : showAttente();break;
-			case 3 : saveVisite();break;
-			case 4 : connected=null;menuPrincipal();break;
-		
+
+		switch (choix) {
+		case 1:
+			updateAttente();
+			break;
+		case 2:
+			showAttente();
+			break;
+		case 3:
+			saveVisite();
+			break;
+		case 4:
+			connected = null;
+			menuPrincipal();
+			break;
+
 		}
 		menuMedecin();
 
 	}
-	
+
 	public static void addAttente() {
 		System.out.println("Identifiant patient :");
-		int id= saisieInt("Entrer id patient");
+		int id = saisieInt("Entrer id patient");
 		Patient p = daoP.findById(id);
 		if (p == null) {
 			addPatient();
-		}
-		else {
+		} else {
 			listedAttente.add(p);
 		}
-		
+
 	}
-	
+
 	public static void addPatient() {
 		String nom = saisieString("Entrer nom");
 		String prenom = saisieString("Entrer prenom");
@@ -165,40 +190,61 @@ public class Test {
 		daoP.insert(p);
 		listedAttente.add(p);
 	}
-	
+
 	public static void showAttente() {
-		System.out.println("Liste d'attente");
-		for (Patient p : listedAttente) {
-			System.out.println(p);
+		if(listVisite.isEmpty()) {
+			System.out.println("Il n'y a personne sur la liste d'attente");
+		}
+		else {
+			System.out.println("Liste d'attente");
+			for (Patient p : listedAttente) {
+				System.out.println(p);
 		}
 	}
-	
+
 	public static void updateAttente() {
 		Double prix = saisieDouble("Prix de la consultation :");
 		int salle = saisieInt("Entrer numero de la salle :");
-		Visite v = new Visite(listedAttente.peek(), (Medecin) connected, prix, salle, LocalDate.now() );
+		Visite v = new Visite(listedAttente.peek(), (Medecin) connected, prix, salle, LocalDate.now());
 		listVisite.add(v);
 		checkListVisite();
 		listedAttente.poll();
 		System.out.println("Le client suivant est" + listedAttente.peek());
-		
+
 	}
-	
+
 	public static void saveVisite() {
 		for (Visite v : listVisite) {
 			daoV.insert(v);
 		}
 		System.out.println("La liste des visiteurs a bien été sauvegardée");
 	}
-	
+
 	public static void checkListVisite() {
 		if (listVisite.size() == 10) {
-			saveVisite();			
-			listVisite.removeAll(listVisite); //vider la liste des visites en local
+			saveVisite();
+			listVisite.removeAll(listVisite); // vider la liste des visites en local
 		}
-			
+
 	}
-	
-	
+
+	public static void saveAttente() {
+		File f = new File("attente.txt");
+		FileOutputStream fos;
+		ObjectOutputStream oos;
+		try {
+			fos = new FileOutputStream(f);
+			oos = new ObjectOutputStream(fos);
+			for (Patient p: listedAttente) {
+				oos.writeObject(p); 
+			}
+		}
+		 catch (IOException e1 ) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+
+	}
 
 }
