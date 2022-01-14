@@ -28,6 +28,7 @@ public class Test {
 	static DAOVisite daoV = new DAOVisite();
 	static LinkedList<Patient> listedAttente = new LinkedList();
 	static List<Visite> listVisite = new ArrayList();
+	static Integer salle = null;
 
 	public static String saisieString(String msg) {
 		Scanner sc = new Scanner(System.in);
@@ -79,6 +80,7 @@ public class Test {
 		connected = daoC.seConnecter(login, password);
 
 		if (connected instanceof Medecin) {
+			salle = saisieInt("Entrer salle");
 			menuMedecin();
 		} else if (connected instanceof Secretaire) {
 			menuSecretaire(false);
@@ -121,7 +123,7 @@ public class Test {
 
 		else {
 
-			System.out.println("Menu Vendeur");
+			System.out.println("Menu Secretaire");
 			System.out.println("1 - Revenir pause");
 			System.out.println("2 - Se déconnecter");
 
@@ -207,7 +209,6 @@ public class Test {
 
 	public static void updateAttente() {
 		Double prix = saisieDouble("Prix de la consultation :");
-		int salle = saisieInt("Entrer numero de la salle :");
 		Visite v = new Visite(listedAttente.peek(), (Medecin) connected, prix, salle, LocalDate.now());
 		listVisite.add(v);
 		checkListVisite();
