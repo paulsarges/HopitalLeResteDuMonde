@@ -169,7 +169,7 @@ public class DAOVisite implements IDAO<Visite,Integer> {
 	}
 	
 	public Visite findByPatient(Integer id_patient) {
-		Visite v=null;
+		List<Visite> visites = new ArrayList<>();;
 		DAOCompte daoC = new DAOCompte();
 		DAOPatient daoP = new DAOPatient();
 		try {
@@ -181,13 +181,14 @@ public class DAOVisite implements IDAO<Visite,Integer> {
 
 			ResultSet rs = ps.executeQuery();
 
-
+			Visite v = null;
 
 			while(rs.next()) 
 			{
 				Medecin c = (Medecin)daoC.findById(rs.getInt("id_medecin"));
 				Patient p = daoP.findById(rs.getInt("id_patient"));
 				v = new Visite(rs.getInt("numero"),p,c,rs.getDouble("prix"),rs.getInt("salle"), LocalDate.parse(rs.getString("date_visite")));
+				visites.add(v);
 			}
 
 			rs.close();
@@ -199,6 +200,6 @@ public class DAOVisite implements IDAO<Visite,Integer> {
 			e.printStackTrace();
 
 		}
-		return v;
+		return (Visite) visites;
 	}
 }
