@@ -1,12 +1,24 @@
 package test;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-import model.Secretaire;
+import dao.DAOCompte;
+import dao.DAOPatient;
+import model.Compte;
 import model.Medecin;
-import model.Client;
+import model.Patient;
+import model.Secretaire;
+import model.Visite;
 
 public class test {
+	static Compte connected = null;
+	static DAOCompte daoC = new DAOCompte();
+	static DAOPatient daoP = new DAOPatient();
+	static List<Patient> listedAttente = new ArrayList();
+	static List<Visite> listVisite = new ArrayList();
 	
 	
 	public static String saisieString(String msg) 
@@ -108,7 +120,7 @@ public class test {
 
 	}
 	
-	public static void menuMedecin(boolean pause) {
+	public static void menuMedecin() {
 
 		System.out.println("Menu Secrétaire");
 		System.out.println("1 - Patient suivant");
@@ -126,25 +138,57 @@ public class test {
 			case 4 : connected=null;menuPrincipal();break;
 		
 		}
-		menuMedecin(false);
+		menuMedecin();
 
 	}
 	
 	public static void addAttente() {
 		System.out.println("Identifiant patient :");
+		int id= saisieInt("Entrer id patient");
+		Patient p = daoP.findById(id);
+		if (p != null) {
+			addPatient();
+		}
+		else {
+			listedAttente.add(p);
+		}
 		
+	}
+	
+	public static void addPatient() {
+		String nom = saisieString("Entrer nom");
+		String prenom = saisieString("Entrer prenom");
+		Patient p = new Patient(nom, prenom);
+		daoP.insert(p);
 	}
 	
 	public static void showAttente() {
 		System.out.println("Liste d'attente");
+		for (Patient p : listedAttente) {
+			System.out.println(p);
+		}
 	}
 	
 	public static void updateAttente() {
+		Double prix = saisieDouble("Prix de la consultation :");
+		int salle = saisieInt("Entrer numero de la salle :");
+		Visite v = new Visite(listedAttente.get(0), (Medecin) connected, prix, salle, LocalDate.now() );
+		listVisite.add(v);
+		checkListVisite();
 		System.out.println("Le client suivant est");
+		
 	}
 	
 	public static void saveVisite() {
 		System.out.println("La liste des visiteurs a bien été sauvegardée");
+	}
+	
+	public static void checkListVisite() {
+		if (listVisite.size() == 10) {
+			saveVisite();			
+			listVisite.removeAll(listVisite); //vider la liste des visites en local
+		}
+			
 	}
 	
 	
