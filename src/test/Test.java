@@ -97,8 +97,9 @@ public class Test {
 			System.out.println("Menu Secrétaire");
 			System.out.println("1 - Mettre sur la liste d'attente");
 			System.out.println("2 - Consulter la liste d'attente");
-			System.out.println("3 - Partir en Pause");
-			System.out.println("4 - Se deconnecter");
+			System.out.println("3 - Afficher les visites d'un patient");
+			System.out.println("4 - Partir en Pause");
+			System.out.println("5 - Se deconnecter");
 
 			int choix = saisieInt("Choisir un menu");
 
@@ -110,11 +111,14 @@ public class Test {
 				showAttente();
 				break;
 			case 3:
+				showVisite();
+				break;
+			case 4:
 				saveAttente();
 				menuSecretaire(true);
 				;
 				break;
-			case 4:
+			case 5:
 				connected = null;
 				menuPrincipal();
 				break;
@@ -213,7 +217,7 @@ public class Test {
 		listVisite.add(v);
 		checkListVisite();
 		listedAttente.poll();
-		System.out.println("Le client suivant est" + listedAttente.peek());
+		System.out.println("Le client suivant est " + listedAttente.peek());
 
 	}
 
@@ -221,7 +225,7 @@ public class Test {
 		for (Visite v : listVisite) {
 			daoV.insert(v);
 		}
-		System.out.println("La liste des visiteurs a bien été sauvegardée");
+		System.out.println("La liste des visiteurs a bien été sauvegardée ");
 		listVisite.clear();
 	}
 
@@ -262,6 +266,11 @@ public class Test {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+	
+	public static void showVisite() {
+		int id = saisieInt("saisir numero patient : ");
+		daoV.findByPatient(id);
 	}
 
 }
