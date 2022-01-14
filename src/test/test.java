@@ -180,6 +180,9 @@ public class test {
 	}
 	
 	public static void saveVisite() {
+		for (Visite v : listVisite) {
+			daoV.insert(v);
+		}
 		System.out.println("La liste des visiteurs a bien été sauvegardée");
 	}
 	
