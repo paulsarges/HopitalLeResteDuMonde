@@ -2,46 +2,63 @@ package model;
 
 public class Patient {
 		
-		Integer idPatient;
-		String nomPatient;
-		String prenomPatient;
+		private static Integer id;
+		private String nom;
+		private String prenom;
 		
-		public Patient(Integer idPatient, String nomPatient, String prenomPatient) {
+		public Patient(String nom, String prenom) {
 	
-			this.idPatient = idPatient;
-			this.nomPatient = nomPatient;
-			this.prenomPatient = prenomPatient;
+			id++;
+			this.nom = nom;
+			this.prenom = prenom;
 		}
 
-		public Integer getIdPatient() {
-			return idPatient;
+		
+
+		public static Integer getId() {
+			return id;
 		}
 
-		public void setIdPatient(Integer idPatient) {
-			this.idPatient = idPatient;
+
+
+		public static void setId(Integer id) {
+			Patient.id = id;
 		}
 
-		public String getNomPatient() {
-			return nomPatient;
+
+
+		public String getNom() {
+			return nom;
 		}
 
-		public void setNomPatient(String nomPatient) {
-			this.nomPatient = nomPatient;
+
+
+		public void setNom(String nom) {
+			this.nom = nom;
 		}
 
-		public String getPrenomPatient() {
-			return prenomPatient;
+
+
+		public String getPrenom() {
+			return prenom;
 		}
 
-		public void setPrenomPatient(String prenomPatient) {
-			this.prenomPatient = prenomPatient;
+
+
+		public void setPrenom(String prenom) {
+			this.prenom = prenom;
 		}
+
+
 
 		@Override
 		public String toString() {
-			return "Patient [idPatient=" + idPatient + ", nomPatient=" + nomPatient + ", prenomPatient=" + prenomPatient
-					+ "]";
+			return "Patient [nom=" + nom + ", prenom=" + prenom + "]";
 		}
+
+
+
+		
 		
 	
 

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Compte;
@@ -47,8 +48,38 @@ public class DAOCompte implements IDAO<Compte,Integer> {
 
 	@Override
 	public List<Compte> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Compte> comptes = new ArrayList<>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
+
+			PreparedStatement ps = conn.prepareStatement("SELECT * from compte");
+			ResultSet rs = ps.executeQuery();
+
+			while(rs.next()) 
+			{	
+
+				if(rs.getString("type_compte").equals("Medecin")) {
+					Medecin m = new Medecin(rs.getInt("id"), rs.getString("login"), rs.getString("password"));
+					comptes.add(m);
+				} else if(rs.getString("type_compte").equals("Secretaire") ) {
+					Secretaire s = new Secretaire(rs.getInt("id"), rs.getString("login"), rs.getString("password"));
+					comptes.add(s);
+				}
+			}
+
+
+			rs.close();
+			ps.close();
+			conn.close();
+
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+
+
+		}
+
+		return comptes;
 	}
 
 	@Override
