@@ -168,7 +168,7 @@ public class DAOVisite implements IDAO<Visite,Integer> {
 
 	}
 	
-	public Visite findByPatient(Integer id_patient) {
+	public List<Visite> findByPatient(Integer id_patient) {
 		List<Visite> visites = new ArrayList<>();;
 		DAOCompte daoC = new DAOCompte();
 		DAOPatient daoP = new DAOPatient();
@@ -200,6 +200,6 @@ public class DAOVisite implements IDAO<Visite,Integer> {
 			e.printStackTrace();
 
 		}
-		return (Visite) visites;
+		return visites;
 	}
 }
