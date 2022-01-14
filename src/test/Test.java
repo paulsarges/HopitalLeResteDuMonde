@@ -99,7 +99,7 @@ public class Test {
 			{
 			case 1 : addAttente();break;
 			case 2 : showAttente();break;
-			case 3 : menuSecretaire(true);break;
+			case 3 : menuMedecin();break;
 			case 4 : connected=null;menuPrincipal();break;
 			}
 		}
