@@ -125,7 +125,7 @@ public class Test {
 	
 	public static void menuMedecin() {
 
-		System.out.println("Menu Secrétaire");
+		System.out.println("Menu Medecin");
 		System.out.println("1 - Patient suivant");
 		System.out.println("2 - Consulter la liste d'attente");
 		System.out.println("3 - Sauvegarder les visites");
