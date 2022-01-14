@@ -32,7 +32,7 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 
 			while(rs.next()) 
 			{
-				p = new Patient(id, rs.getString("nom"), rs.getString("prenom"));
+				p = new Patient(rs.getString("nom"), rs.getString("prenom"));
 			}
 			rs.close();
 			ps.close();
@@ -61,7 +61,7 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 			while(rs.next()) 
 			{
 				
-				p = new Patient(rs.getInt("id"), rs.getString("nom"), rs.getString("prenom"));
+				p = new Patient(rs.getString("nom"), rs.getString("prenom"));
 
 				patients.add(p);
 			}
@@ -89,7 +89,7 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO patient (id,nom,prenom) VALUES (?,?,?)");
 
 			System.out.println("Insertion des caractéristiques de la fiche");
-			ps.setString(1, p.getid());
+			ps.setInt(1, p.getId());
 			ps.setString(2, p.getNom());
 			ps.setString(3, p.getPrenom());
 
@@ -106,7 +106,7 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 	}
 
 	@Override
-	public void update(Patient o) {
+	public void update(Patient p) {
 		
 		try 
 		{
@@ -162,4 +162,4 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 	
 
 }
-}
+
