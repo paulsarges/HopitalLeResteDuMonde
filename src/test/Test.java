@@ -199,6 +199,7 @@ public class Test {
 			System.out.println("Liste d'attente");
 			for (Patient p : listedAttente) {
 				System.out.println(p);
+			}
 		}
 	}
 
