@@ -87,7 +87,7 @@ public class Test {
 	public static void menuSecretaire(boolean pause) {
 		if (!pause) {
 
-			System.out.println("Menu Secrï¿½taire");
+			System.out.println("Menu Secrétaire");
 			System.out.println("1 - Mettre sur la liste d'attente");
 			System.out.println("2 - Consulter la liste d'attente");
 			System.out.println("3 - Partir en Pause");
@@ -108,7 +108,7 @@ public class Test {
 
 			System.out.println("Menu Vendeur");
 			System.out.println("1 - Revenir pause");
-			System.out.println("2 - Se dï¿½connecter");
+			System.out.println("2 - Se déconnecter");
 	
 			int choix = saisieInt("Choisir un menu");
 	
@@ -125,7 +125,7 @@ public class Test {
 	
 	public static void menuMedecin() {
 
-		System.out.println("Menu Secrï¿½taire");
+		System.out.println("Menu Secrétaire");
 		System.out.println("1 - Patient suivant");
 		System.out.println("2 - Consulter la liste d'attente");
 		System.out.println("3 - Sauvegarder les visites");
@@ -149,7 +149,7 @@ public class Test {
 		System.out.println("Identifiant patient :");
 		int id= saisieInt("Entrer id patient");
 		Patient p = daoP.findById(id);
-		if (p != null) {
+		if (p == null) {
 			addPatient();
 		}
 		else {
@@ -163,6 +163,7 @@ public class Test {
 		String prenom = saisieString("Entrer prenom");
 		Patient p = new Patient(nom, prenom);
 		daoP.insert(p);
+		listedAttente.add(p);
 	}
 	
 	public static void showAttente() {
@@ -187,7 +188,7 @@ public class Test {
 		for (Visite v : listVisite) {
 			daoV.insert(v);
 		}
-		System.out.println("La liste des visiteurs a bien ï¿½tï¿½ sauvegardï¿½e");
+		System.out.println("La liste des visiteurs a bien été sauvegardée");
 	}
 	
 	public static void checkListVisite() {
