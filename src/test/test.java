@@ -2,22 +2,25 @@ package test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 import dao.DAOCompte;
 import dao.DAOPatient;
+import dao.DAOVisite;
 import model.Compte;
 import model.Medecin;
 import model.Patient;
 import model.Secretaire;
 import model.Visite;
 
-public class test {
+public class Test {
 	static Compte connected = null;
 	static DAOCompte daoC = new DAOCompte();
 	static DAOPatient daoP = new DAOPatient();
-	static List<Patient> listedAttente = new ArrayList();
+	static DAOVisite daoV = new DAOVisite();
+	static LinkedList<Patient> listedAttente = new LinkedList();
 	static List<Visite> listVisite = new ArrayList();
 	
 	
@@ -84,7 +87,7 @@ public class test {
 	public static void menuSecretaire(boolean pause) {
 		if (!pause) {
 
-			System.out.println("Menu Secrétaire");
+			System.out.println("Menu Secrï¿½taire");
 			System.out.println("1 - Mettre sur la liste d'attente");
 			System.out.println("2 - Consulter la liste d'attente");
 			System.out.println("3 - Partir en Pause");
@@ -105,7 +108,7 @@ public class test {
 
 			System.out.println("Menu Vendeur");
 			System.out.println("1 - Revenir pause");
-			System.out.println("2 - Se déconnecter");
+			System.out.println("2 - Se dï¿½connecter");
 	
 			int choix = saisieInt("Choisir un menu");
 	
@@ -122,7 +125,7 @@ public class test {
 	
 	public static void menuMedecin() {
 
-		System.out.println("Menu Secrétaire");
+		System.out.println("Menu Secrï¿½taire");
 		System.out.println("1 - Patient suivant");
 		System.out.println("2 - Consulter la liste d'attente");
 		System.out.println("3 - Sauvegarder les visites");
@@ -172,15 +175,19 @@ public class test {
 	public static void updateAttente() {
 		Double prix = saisieDouble("Prix de la consultation :");
 		int salle = saisieInt("Entrer numero de la salle :");
-		Visite v = new Visite(listedAttente.get(0), (Medecin) connected, prix, salle, LocalDate.now() );
+		Visite v = new Visite(listedAttente.peek(), (Medecin) connected, prix, salle, LocalDate.now() );
 		listVisite.add(v);
 		checkListVisite();
-		System.out.println("Le client suivant est");
+		listedAttente.poll();
+		System.out.println("Le client suivant est" + listedAttente.peek());
 		
 	}
 	
 	public static void saveVisite() {
-		System.out.println("La liste des visiteurs a bien été sauvegardée");
+		for (Visite v : listVisite) {
+			daoV.insert(v);
+		}
+		System.out.println("La liste des visiteurs a bien ï¿½tï¿½ sauvegardï¿½e");
 	}
 	
 	public static void checkListVisite() {
