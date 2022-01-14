@@ -13,7 +13,7 @@ public class Visite {
 	
 	
 	public Visite(Patient patient, Medecin medecin, double prix, int salle, LocalDate dateVisite) {
-		super();
+		numero++;
 		this.patient = patient;
 		this.medecin = medecin;
 		this.prix = prix;
