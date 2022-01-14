@@ -168,4 +168,37 @@ public class DAOVisite implements IDAO<Visite,Integer> {
 
 	}
 	
+	public Visite findByPatient(Integer id_patient) {
+		Visite v=null;
+		DAOCompte daoC = new DAOCompte();
+		DAOPatient daoP = new DAOPatient();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
+
+			PreparedStatement ps = conn.prepareStatement("SELECT * from visite where id_patient=?");
+			ps.setInt(1,id_patient);
+
+			ResultSet rs = ps.executeQuery();
+
+
+
+			while(rs.next()) 
+			{
+				Medecin c = (Medecin)daoC.findById(rs.getInt("id_medecin"));
+				Patient p = daoP.findById(rs.getInt("id_patient"));
+				v = new Visite(rs.getInt("numero"),p,c,rs.getDouble("prix"),rs.getInt("salle"), LocalDate.parse(rs.getString("date_visite")));
+			}
+
+			rs.close();
+			ps.close();
+			conn.close();
+
+
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+
+		}
+		return v;
+	}
 }
