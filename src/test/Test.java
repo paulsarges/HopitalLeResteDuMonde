@@ -2,22 +2,25 @@ package test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 import dao.DAOCompte;
 import dao.DAOPatient;
+import dao.DAOVisite;
 import model.Compte;
 import model.Medecin;
 import model.Patient;
 import model.Secretaire;
 import model.Visite;
 
-public class test {
+public class Test {
 	static Compte connected = null;
 	static DAOCompte daoC = new DAOCompte();
 	static DAOPatient daoP = new DAOPatient();
-	static List<Patient> listedAttente = new ArrayList();
+	static DAOVisite daoV = new DAOVisite();
+	static LinkedList<Patient> listedAttente = new LinkedList();
 	static List<Visite> listVisite = new ArrayList();
 	
 	
@@ -172,10 +175,11 @@ public class test {
 	public static void updateAttente() {
 		Double prix = saisieDouble("Prix de la consultation :");
 		int salle = saisieInt("Entrer numero de la salle :");
-		Visite v = new Visite(listedAttente.get(0), (Medecin) connected, prix, salle, LocalDate.now() );
+		Visite v = new Visite(listedAttente.peek(), (Medecin) connected, prix, salle, LocalDate.now() );
 		listVisite.add(v);
 		checkListVisite();
-		System.out.println("Le client suivant est");
+		listedAttente.poll();
+		System.out.println("Le client suivant est" + listedAttente.peek());
 		
 	}
 	

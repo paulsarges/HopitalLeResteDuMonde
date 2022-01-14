@@ -11,6 +11,14 @@ public class Visite {
 	private int salle;
 	private LocalDate dateVisite;
 	
+	public Visite(Patient patient, Medecin medecin, double prix, int salle, LocalDate dateVisite) {
+		this.patient = patient;
+		this.medecin = medecin;
+		this.prix = prix;
+		this.salle = salle;
+		this.dateVisite = dateVisite;
+	}
+	
 	
 	public Visite(Integer numero, Patient patient, Medecin medecin, double prix, int salle, LocalDate dateVisite) {
 		this.numero = numero;
