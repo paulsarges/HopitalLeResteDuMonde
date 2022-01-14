@@ -22,7 +22,7 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBdd,loginBdd,passwordBdd);
 
-			PreparedStatement ps = conn.prepareStatement("SELECT * from patient where id_patient=?");
+			PreparedStatement ps = conn.prepareStatement("SELECT * from patient where id=?");
 			ps.setInt(1,id);
 
 
@@ -88,7 +88,7 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 		
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO patient (nom,prenom) VALUES (?,?)");
 
-			System.out.println("Insertion des caractéristiques du patient");
+			System.out.println("Insertion des caracteristiques du patient");
 			ps.setString(1, p.getNom());
 			ps.setString(2, p.getPrenom());
 
@@ -99,7 +99,7 @@ public class DAOPatient implements IDAO<Patient, Integer>{
 		}
 		catch(Exception e) {e.printStackTrace();}
 
-		System.out.println("Patient"+p+" insérée avec succés");	
+		System.out.println("Patient"+p+" insere avec succes");	
 		
 		
 	}
