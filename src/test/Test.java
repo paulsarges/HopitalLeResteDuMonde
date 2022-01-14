@@ -1,9 +1,10 @@
 package test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -128,6 +129,7 @@ public class Test {
 
 			switch (choix) {
 			case 1:
+				openAttente();
 				menuSecretaire(false);
 				break;
 			case 2:
@@ -192,7 +194,7 @@ public class Test {
 	}
 
 	public static void showAttente() {
-		if(listVisite.isEmpty()) {
+		if(listedAttente.isEmpty()) {
 			System.out.println("Il n'y a personne sur la liste d'attente");
 		}
 		else {
@@ -219,12 +221,13 @@ public class Test {
 			daoV.insert(v);
 		}
 		System.out.println("La liste des visiteurs a bien été sauvegardée");
+		listVisite.clear();
 	}
 
 	public static void checkListVisite() {
 		if (listVisite.size() == 10) {
 			saveVisite();
-			listVisite.removeAll(listVisite); // vider la liste des visites en local
+			listVisite.clear(); // vider la liste des visites en local
 		}
 
 	}
@@ -236,16 +239,28 @@ public class Test {
 		try {
 			fos = new FileOutputStream(f);
 			oos = new ObjectOutputStream(fos);
-			for (Patient p: listedAttente) {
-				oos.writeObject(p); 
-			}
+			oos.writeObject(listedAttente);
 		}
 		 catch (IOException e1 ) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-
+	}
+	
+	public static void openAttente() {
+		File f = new File("attente.txt");
+		FileInputStream fis;
+		ObjectInputStream ois;
+		try {
+			fis = new FileInputStream(f);
+			ois = new ObjectInputStream(fis);
+			listedAttente =  (LinkedList<Patient>) ois.readObject();
+			
+		}
+		 catch (IOException | ClassNotFoundException e1 ) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 }
