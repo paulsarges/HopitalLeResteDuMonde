@@ -270,7 +270,10 @@ public class Test {
 	
 	public static void showVisite() {
 		int id = saisieInt("saisir numero patient : ");
-		daoV.findByPatient(id);
+		List<Visite> visites = daoV.findByPatient(id);
+		for (Visite v : visites) {
+			System.out.println(v);
+		}
 	}
 
 }
