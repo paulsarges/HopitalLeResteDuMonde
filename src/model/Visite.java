@@ -5,51 +5,50 @@ import java.time.LocalDate;
 public class Visite {
 
 	private static Integer numero;
-	private Integer idPatient;
-	private Integer idMedecin;
+	private Patient patient;
+	private Medecin medecin;
 	private double prix;
 	private int salle;
 	private LocalDate dateVisite;
 	
 	
-	public Visite(Integer numero, Integer idPatient, Integer idMedecin, double prix, int salle, LocalDate dateVisite) {
+	public Visite(Patient patient, Medecin medecin, double prix, int salle, LocalDate dateVisite) {
 		super();
-		numero++;
-		this.idPatient = idPatient;
-		this.idMedecin = idMedecin;
+		this.patient = patient;
+		this.medecin = medecin;
 		this.prix = prix;
 		this.salle = salle;
 		this.dateVisite = dateVisite;
 	}
 
 
-	public Integer getNumero() {
+	public static Integer getNumero() {
 		return numero;
 	}
 
 
-	public void setNumero(Integer numero) {
-		this.numero = numero;
+	public static void setNumero(Integer numero) {
+		Visite.numero = numero;
 	}
 
 
-	public Integer getIdPatient() {
-		return idPatient;
+	public Patient getPatient() {
+		return patient;
 	}
 
 
-	public void setIdPatient(Integer idPatient) {
-		this.idPatient = idPatient;
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 
 
-	public Integer getIdMedecin() {
-		return idMedecin;
+	public Medecin getMedecin() {
+		return medecin;
 	}
 
 
-	public void setIdMedecin(Integer idMedecin) {
-		this.idMedecin = idMedecin;
+	public void setMedecin(Medecin medecin) {
+		this.medecin = medecin;
 	}
 
 
@@ -85,8 +84,11 @@ public class Visite {
 
 	@Override
 	public String toString() {
-		return "Visite [numero=" + numero + ", idPatient=" + idPatient + ", idMedecin=" + idMedecin + ", prix=" + prix
-				+ ", salle=" + salle + ", dateVisite=" + dateVisite + "]";
+		return "Visite [medecin=" + medecin + ", prix=" + prix + ", salle=" + salle + ", dateVisite=" + dateVisite
+				+ "]";
 	}
+
+
+	
 	
 }
